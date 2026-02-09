@@ -3,196 +3,863 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS + Ops Strategic Alignment Engine</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>LENA RY - Player One Ready</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(to bottom right, #e0f2fe, #bbdefb); /* Light blue gradient */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+        :root {
+            --neon-pink: #FF10F0;
+            --neon-cyan: #00F0FF;
+            --neon-yellow: #FFF700;
+            --neon-orange: #FF6B35;
+            --neon-green: #00FF88;
+            --neon-purple: #B537F2;
+            --arcade-red: #FF0844;
+            --dark-bg: #0A0E27;
+            --darker-bg: #050812;
+            --toy-blue: #4A90E2;
+            --toy-pink: #FF69B4;
+        }
+        
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
             box-sizing: border-box;
         }
-        /* Custom colors for Google-like branding */
-        .google-blue { background-color: #4285F4; }
-        .google-green { background-color: #34A853; }
-        .google-yellow { background-color: #FBBC05; }
-        .google-red { background-color: #EA4335; }
-        .text-google-blue { color: #4285F4; }
-        .text-google-green { color: #34A853; }
-        .text-google-yellow { color: #FBBC05; }
-        .text-google-red { color: #EA4335; }
+        
+        body {
+            background: var(--darker-bg);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated background grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridScroll 20s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes gridScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+        
+        /* Floating arcade elements */
+        .floating-toys {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .toy {
+            position: absolute;
+            font-size: 3rem;
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.15;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .arcade-cabinet {
+            width: 100%;
+            max-width: 900px;
+            background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-purple) 100%);
+            border-radius: 40px 40px 0 0;
+            padding: 3rem;
+            position: relative;
+            box-shadow: 
+                0 0 60px rgba(255, 16, 240, 0.4),
+                0 0 120px rgba(181, 55, 242, 0.2),
+                inset 0 -10px 40px rgba(0, 0, 0, 0.3);
+            animation: cabinetGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes cabinetGlow {
+            0%, 100% { box-shadow: 0 0 60px rgba(255, 16, 240, 0.4), 0 0 120px rgba(181, 55, 242, 0.2), inset 0 -10px 40px rgba(0, 0, 0, 0.3); }
+            50% { box-shadow: 0 0 80px rgba(255, 16, 240, 0.6), 0 0 160px rgba(181, 55, 242, 0.4), inset 0 -10px 40px rgba(0, 0, 0, 0.3); }
+        }
+        
+        .screen {
+            background: var(--dark-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 8px solid #1a1f3a;
+            box-shadow: 
+                inset 0 0 60px rgba(0, 240, 255, 0.1),
+                0 10px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 255, 255, 0.03) 0px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            animation: scanlines 8s linear infinite;
+        }
+        
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .pixel-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            color: var(--neon-cyan);
+            text-shadow: 
+                0 0 10px var(--neon-cyan),
+                0 0 20px var(--neon-cyan),
+                0 0 40px var(--neon-cyan),
+                3px 3px 0 var(--neon-pink);
+            margin-bottom: 1rem;
+            animation: titlePulse 2s ease-in-out infinite;
+            line-height: 1.5;
+        }
+        
+        @keyframes titlePulse {
+            0%, 100% { text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan), 3px 3px 0 var(--neon-pink); }
+            50% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan), 0 0 80px var(--neon-cyan), 3px 3px 0 var(--neon-pink); }
+        }
+        
+        .subtitle {
+            font-family: 'VT323', monospace;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px var(--neon-yellow);
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+        }
+        
+        .insert-coin {
+            display: inline-block;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: var(--neon-orange);
+            background: rgba(255, 107, 53, 0.1);
+            padding: 1rem 2rem;
+            border: 3px solid var(--neon-orange);
+            border-radius: 10px;
+            animation: blink 1.5s infinite;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .insert-coin:hover {
+            background: rgba(255, 107, 53, 0.3);
+            transform: scale(1.05);
+        }
+        
+        @keyframes blink {
+            0%, 49%, 100% { opacity: 1; }
+            50%, 99% { opacity: 0.3; }
+        }
+        
+        /* Control Panel */
+        .control-panel {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: linear-gradient(180deg, #2a2d4a 0%, #1a1d3a 100%);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid #000;
+            box-shadow: 
+                0 5px 0 #000,
+                0 8px 20px rgba(0, 0, 0, 0.5),
+                inset 0 -5px 10px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: #000;
+            position: relative;
+        }
+        
+        .button:active {
+            transform: translateY(3px);
+            box-shadow: 
+                0 2px 0 #000,
+                0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .button.red { background: radial-gradient(circle at 30% 30%, var(--arcade-red), #aa0000); }
+        .button.blue { background: radial-gradient(circle at 30% 30%, var(--toy-blue), #2a5a9a); }
+        .button.green { background: radial-gradient(circle at 30% 30%, var(--neon-green), #00aa44); }
+        .button.yellow { background: radial-gradient(circle at 30% 30%, var(--neon-yellow), #ccbb00); }
+        
+        /* Profile Section */
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+        
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: var(--neon-pink);
+            text-shadow: 0 0 20px var(--neon-pink);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::before,
+        .section-title::after {
+            content: '▸';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            animation: arrowPulse 1s ease-in-out infinite;
+        }
+        
+        .section-title::before {
+            left: -3rem;
+        }
+        
+        .section-title::after {
+            right: -3rem;
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        @keyframes arrowPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .profile-card {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.2) 0%, rgba(181, 55, 242, 0.2) 100%);
+            border: 3px solid var(--neon-cyan);
+            border-radius: 30px;
+            padding: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 
+                0 0 40px rgba(0, 240, 255, 0.3),
+                inset 0 0 40px rgba(0, 240, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-card::before {
+            content: '🎮';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 200px;
+            opacity: 0.05;
+            transform: rotate(-15deg);
+        }
+        
+        .profile-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #e0e6ff;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--neon-pink) 0%, var(--neon-cyan) 100%);
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+        
+        .timeline-item {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        
+        .timeline-content {
+            width: calc(50% - 4rem);
+            background: linear-gradient(135deg, rgba(255, 16, 240, 0.1) 0%, rgba(0, 240, 255, 0.1) 100%);
+            border: 2px solid;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .timeline-item:nth-child(1) .timeline-content { animation-delay: 0.1s; border-color: var(--neon-pink); }
+        .timeline-item:nth-child(2) .timeline-content { animation-delay: 0.2s; border-color: var(--neon-cyan); }
+        .timeline-item:nth-child(3) .timeline-content { animation-delay: 0.3s; border-color: var(--neon-yellow); }
+        .timeline-item:nth-child(4) .timeline-content { animation-delay: 0.4s; border-color: var(--neon-green); }
+        .timeline-item:nth-child(5) .timeline-content { animation-delay: 0.5s; border-color: var(--neon-orange); }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+            margin-right: calc(50% + 4rem);
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: calc(50% + 4rem);
+        }
+        
+        .level-badge {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: var(--dark-bg);
+            border: 4px solid;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            box-shadow: 0 0 30px;
+            z-index: 10;
+        }
+        
+        .timeline-item:nth-child(1) .level-badge { border-color: var(--neon-pink); box-shadow: 0 0 30px var(--neon-pink); color: var(--neon-pink); }
+        .timeline-item:nth-child(2) .level-badge { border-color: var(--neon-cyan); box-shadow: 0 0 30px var(--neon-cyan); color: var(--neon-cyan); }
+        .timeline-item:nth-child(3) .level-badge { border-color: var(--neon-yellow); box-shadow: 0 0 30px var(--neon-yellow); color: var(--neon-yellow); }
+        .timeline-item:nth-child(4) .level-badge { border-color: var(--neon-green); box-shadow: 0 0 30px var(--neon-green); color: var(--neon-green); }
+        .timeline-item:nth-child(5) .level-badge { border-color: var(--neon-orange); box-shadow: 0 0 30px var(--neon-orange); color: var(--neon-orange); }
+        
+        .job-title {
+            font-family: 'VT323', monospace;
+            font-size: 2rem;
+            color: var(--neon-cyan);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+        
+        .company {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            color: var(--neon-pink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .duration {
+            font-family: 'VT323', monospace;
+            font-size: 1.3rem;
+            color: var(--neon-yellow);
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .job-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #d0d8ff;
+        }
+        
+        /* Power-ups / Tools Section */
+        .powerups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .powerup {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2) 0%, rgba(255, 16, 240, 0.2) 100%);
+            border: 3px solid var(--neon-orange);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            animation: powerupFloat 3s ease-in-out infinite;
+        }
+        
+        .powerup:nth-child(2) { animation-delay: 0.3s; }
+        .powerup:nth-child(3) { animation-delay: 0.6s; }
+        .powerup:nth-child(4) { animation-delay: 0.9s; }
+        .powerup:nth-child(5) { animation-delay: 1.2s; }
+        .powerup:nth-child(6) { animation-delay: 1.5s; }
+        
+        @keyframes powerupFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .powerup:hover {
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 40px rgba(255, 107, 53, 0.5);
+        }
+        
+        .powerup::before {
+            content: '⭐';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+        
+        .powerup-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .powerup-name {
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px var(--neon-yellow);
+        }
+        
+        /* Contact Section */
+        .contact-arcade {
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-green) 100%);
+            border-radius: 40px;
+            padding: 4rem 3rem;
+            text-align: center;
+            box-shadow: 
+                0 0 60px rgba(0, 240, 255, 0.4),
+                inset 0 -10px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-arcade::before {
+            content: '🎯🎪🎨';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 300px;
+            opacity: 0.05;
+        }
+        
+        .contact-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: var(--dark-bg);
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-btn {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            color: #fff;
+            background: var(--dark-bg);
+            padding: 1.5rem 2.5rem;
+            border: 4px solid #fff;
+            border-radius: 15px;
+            text-decoration: none;
+            box-shadow: 
+                0 6px 0 rgba(0, 0, 0, 0.3),
+                0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 9px 0 rgba(0, 0, 0, 0.3),
+                0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .contact-btn:active {
+            transform: translateY(3px);
+            box-shadow: 
+                0 3px 0 rgba(0, 0, 0, 0.3),
+                0 5px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 3rem 0;
+            text-align: center;
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            color: var(--neon-cyan);
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 80px) !important;
+                margin-left: 80px !important;
+                margin-right: 0 !important;
+            }
+            
+            .level-badge {
+                left: 30px !important;
+                transform: translateX(-50%) !important;
+            }
+            
+            .control-panel {
+                gap: 1rem;
+            }
+            
+            .button {
+                width: 60px;
+                height: 60px;
+                font-size: 0.5rem;
+            }
+            
+            .powerups-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+            
+            .section-title::before,
+            .section-title::after {
+                display: none;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-100">
-    <div class="w-full max-w-7xl bg-white shadow-2xl rounded-xl p-8 md:p-12 lg:p-16 flex flex-col items-center space-y-8 animate-fade-in-up">
-        <!-- Main Title -->
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-800 text-center leading-tight mb-6">
-            CS + Ops = Strategic Alignment Engine
-            <span class="block text-xl md:text-2xl lg:text-3xl font-medium text-gray-600 mt-2">Driving Cross-Functional Success Through Collaboration</span>
-        </h1>
-
-        <!-- Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
-
-            <!-- Header Row for Columns (visible on larger screens) -->
-            <div class="hidden lg:grid col-span-3 grid-cols-3 gap-8 mb-4">
-                <div class="text-xl font-bold text-gray-700 text-center pb-2 border-b-2 border-gray-300">Team</div>
-                <div class="text-xl font-bold text-gray-700 text-center pb-2 border-b-2 border-gray-300">What They Need</div>
-                <div class="text-xl font-bold text-gray-700 text-center pb-2 border-b-2 border-gray-300">How CS + Ops Help</div>
-            </div>
-
-            <!-- Product Row -->
-            <div class="col-span-1 lg:col-span-3 grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 bg-blue-50 border-l-4 border-google-blue rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div class="flex items-center space-x-3 lg:col-span-1">
-                    <div class="w-10 h-10 google-blue rounded-full flex items-center justify-center text-white text-xl font-bold">P</div>
-                    <h2 class="text-2xl font-semibold text-gray-800">Product</h2>
-                </div>
-                <p class="text-lg text-gray-700 lg:col-span-1"><strong class="text-google-blue">Needs:</strong> Clear user feedback & priority signals</p>
-                <p class="text-lg text-gray-600 lg:col-span-1"><strong class="text-gray-800">Help:</strong> CS captures feedback → Ops standardizes & routes it</p>
-            </div>
-
-            <!-- Sales Row -->
-            <div class="col-span-1 lg:col-span-3 grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 bg-green-50 border-l-4 border-google-green rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div class="flex items-center space-x-3 lg:col-span-1">
-                    <div class="w-10 h-10 google-green rounded-full flex items-center justify-center text-white text-xl font-bold">S</div>
-                    <h2 class="text-2xl font-semibold text-gray-800">Sales</h2>
-                </div>
-                <p class="text-lg text-gray-700 lg:col-span-1"><strong class="text-google-green">Needs:</strong> Confident handoffs + upsell timing</p>
-                <p class="text-lg text-gray-600 lg:col-span-1"><strong class="text-gray-800">Help:</strong> CS manages onboarding & health → Ops tracks expansion data</p>
-            </div>
-
-            <!-- Marketing Row -->
-            <div class="col-span-1 lg:col-span-3 grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 bg-yellow-50 border-l-4 border-google-yellow rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div class="flex items-center space-x-3 lg:col-span-1">
-                    <div class="w-10 h-10 google-yellow rounded-full flex items-center justify-center text-white text-xl font-bold">M</div>
-                    <h2 class="text-2xl font-semibold text-gray-800">Marketing</h2>
-                </div>
-                <p class="text-lg text-gray-700 lg:col-span-1"><strong class="text-google-yellow">Needs:</strong> Customer stories + activation metrics</p>
-                <p class="text-lg text-gray-600 lg:col-span-1"><strong class="text-gray-800">Help:</strong> CS brings insights → Ops surfaces activation data</p>
-            </div>
-
-            <!-- Support Row -->
-            <div class="col-span-1 lg:col-span-3 grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 bg-red-50 border-l-4 border-google-red rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div class="flex items-center space-x-3 lg:col-span-1">
-                    <div class="w-10 h-10 google-red rounded-full flex items-center justify-center text-white text-xl font-bold">T</div>
-                    <h2 class="text-2xl font-semibold text-gray-800">Support</h2>
-                </div>
-                <p class="text-lg text-gray-700 lg:col-span-1"><strong class="text-google-red">Needs:</strong> Lower ticket volume + better routing</p>
-                <p class="text-lg text-gray-600 lg:col-span-1"><strong class="text-gray-800">Help:</strong> CS identifies patterns → Ops automates & builds macros</p>
-            </div>
-
-            <!-- Leadership Row -->
-            <div class="col-span-1 lg:col-span-3 grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 bg-purple-50 border-l-4 border-purple-600 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div class="flex items-center space-x-3 lg:col-span-1">
-                    <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold">L</div>
-                    <h2 class="text-2xl font-semibold text-gray-800">Leadership</h2>
-                </div>
-                <p class="text-lg text-gray-700 lg:col-span-1"><strong class="text-purple-600">Needs:</strong> Visibility into risks & growth levers</p>
-                <p class="text-lg text-gray-600 lg:col-span-1"><strong class="text-gray-800">Help:</strong> CS surfaces trends → Ops builds dashboards for decisions</p>
-            </div>
-
-        </div>
-
-        <!-- New Section: Processes to Build Together -->
-        <div class="w-full mt-12 bg-gray-50 rounded-xl p-8 shadow-2xl">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 text-center leading-tight mb-6">
-                Processes to Build Together
-            </h2>
-            <ul class="list-disc list-inside space-y-3 text-lg text-gray-700 md:text-xl">
-                <li class="flex items-start">
-                    <span class="text-google-blue mr-2 text-2xl">•</span>
-                    <div><strong class="font-semibold">Onboarding Flow:</strong> Assign steps, owners, and automation triggers across teams</div>
-                </li>
-                <li class="flex items-start">
-                    <span class="text-google-green mr-2 text-2xl">•</span>
-                    <div><strong class="font-semibold">Churn Risk Dashboard:</strong> Real-time visibility across Product, Sales, and CS</div>
-                </li>
-                <li class="flex items-start">
-                    <span class="text-google-yellow mr-2 text-2xl">•</span>
-                    <div><strong class="font-semibold">Voice of Customer Loop:</strong> Monthly synthesis → shared with Product and Exec</div>
-                </li>
-                <li class="flex items-start">
-                    <span class="text-google-red mr-2 text-2xl">•</span>
-                    <div><strong class="font-semibold">Expansion Readiness Signals:</strong> Auto-flag healthy accounts to Sales + CS for upsells</div>
-                </li>
-                <li class="flex items-start">
-                    <span class="text-purple-600 mr-2 text-2xl">•</span>
-                    <div><strong class="font-semibold">Ticket Categorization & Automation:</strong> Reduce support load, speed up time-to-resolution</div>
-                </li>
-            </ul>
-        </div>
-
-        <!-- New Section: CS Roadmap -->
-        <div class="w-full mt-12 bg-white rounded-xl p-8 shadow-2xl border-t-4 border-gray-300">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 text-center leading-tight mb-8">
-                CS Roadmap
-            </h2>
-            <div class="flex flex-col md:flex-row justify-between items-stretch space-y-8 md:space-y-0 md:space-x-4">
-
-                <!-- 08/2025 -->
-                <div class="flex-1 bg-blue-50 rounded-lg p-5 border-l-4 border-google-blue shadow-md">
-                    <h3 class="text-xl font-bold text-google-blue mb-3">08/2025</h3>
-                    <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
-                        <li><strong>Onboarding and Assessment:</strong> Learn existing processes: Review current customer success workflows and tools</li>
-                        <li><strong>Cross-Team Collaboration:</strong> Meet with Product, Sales, and Development teams to understand the broader strategy.</li>
-                        <li><strong>Identify Strengths and Gaps:</strong> Determine what's working well and what needs improvement.</li>
-                    </ul>
-                </div>
-
-                <!-- 09/2025 -->
-                <div class="flex-1 bg-green-50 rounded-lg p-5 border-l-4 border-google-green shadow-md">
-                    <h3 class="text-xl font-bold text-google-green mb-3">09/2025</h3>
-                    <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
-                        <li><strong>Process Optimization and Quick Wins:</strong> Refine Workflows: Implement improvements in client onboarding and support processes.</li>
-                        <li><strong>Client Mapping:</strong> Develop personalized strategies for different client segments to ensure their unique needs are met. (CS Playbook Version 0.1)</li>
-                        <li><strong>Sales Feedback Loop:</strong> Ensure Sales provides key details about each client, like developer resources and design team involvement (etc).</li>
-                        <li><strong>Data Monitoring:</strong> Build a health scoring system using SDK integration status, transaction volume, user engagement and retention, support signals (Slack messages or tickets).</li>
-                    </ul>
-                </div>
-
-                <!-- 10/2025 -->
-                <div class="flex-1 bg-yellow-50 rounded-lg p-5 border-l-4 border-google-yellow shadow-md">
-                    <h3 class="text-xl font-bold text-google-yellow mb-3">10/2025</h3>
-                    <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
-                        <li><strong>Proactive Client Touchpoints:</strong> Schedule regular check-ins and business reviews with key clients to surface risks and upsell opportunities early (new titles).</li>
-                        <li><strong>CRM:</strong> Choose and implement tools for client management and success tracking.</li>
-                        <li><strong>Feedback Loop:</strong> Create a system for regular updates from clients and internal teams on new developments.</li>
-                        <li><strong>Internal Enablement:</strong> Train Sales and Product teams on customer insights gathered so far to refine pre-sale and post-sale alignment</li>
-                    </ul>
-                </div>
-
-                <!-- 11/2025 -->
-                <div class="flex-1 bg-red-50 rounded-lg p-5 border-l-4 border-google-red shadow-md">
-                    <h3 class="text-xl font-bold text-google-red mb-3">11/2025</h3>
-                    <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
-                        <li><strong>Proactive Engagement and Metrics:</strong> Client Success Metric: Set clear KPIs for customer health, onboarding speed, support responsiveness, and expansion potential</li>
-                        <li><strong>Upsell:</strong> Define clear signals for upsell and cross-sell moments.</li>
-                        <li><strong>CS Playbook Version 0.2:</strong> Update the client mapping and onboarding playbook based on learnings, adding edge-case handling and escalation paths.</li>
-                        <li><strong>Data Consolidation:</strong> Integrate client feedback into a central dashboard for visibility on trends and actionable items</li>
-                        <li><strong>Customer Advocacy Program:</strong> Identify satisfied customers and invite them for testimonials, case studies, or speaking opportunities</li>
-                    </ul>
-                </div>
-
-                <!-- 12/2025 -->
-                <div class="flex-1 bg-purple-50 rounded-lg p-5 border-l-4 border-purple-600 shadow-md">
-                    <h3 class="text-xl font-bold text-purple-600 mb-3">12/2025</h3>
-                    <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
-                        <li><strong>Scaling:</strong> Automation Opportunities: Identify repeatable manual tasks (follow-ups, status updates, onboarding steps) that can be automated or AI-ed to save time.</li>
-                        <li><strong>Team Growth Plan:</strong> Assess workload vs pipeline and draft a resource plan for when to hire additional CS resources</li>
-                        <li><strong>Proactive Risk Management:</strong> Build a simple system for flagging accounts at risk (low usage, support signals) and define clear intervention steps</li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-
+<body>
+    <div class="floating-toys">
+        <div class="toy" style="left: 10%; top: 20%; animation-delay: 0s;">🎮</div>
+        <div class="toy" style="left: 80%; top: 10%; animation-delay: 2s;">🕹️</div>
+        <div class="toy" style="left: 15%; top: 70%; animation-delay: 4s;">🎯</div>
+        <div class="toy" style="left: 85%; top: 60%; animation-delay: 1s;">🎪</div>
+        <div class="toy" style="left: 50%; top: 40%; animation-delay: 3s;">🎨</div>
+        <div class="toy" style="left: 25%; top: 85%; animation-delay: 5s;">🎲</div>
+        <div class="toy" style="left: 70%; top: 80%; animation-delay: 2.5s;">🧸</div>
     </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="arcade-cabinet">
+                <div class="screen">
+                    <div class="hero-content">
+                        <h1 class="pixel-title">LENA RY</h1>
+                        <p class="subtitle">SENIOR CUSTOMER SUCCESS MANAGER</p>
+                        <p class="subtitle">& PLATFORM LEADER</p>
+                        <div class="insert-coin">★ SCROLL TO START ★</div>
+                    </div>
+                </div>
+                <div class="control-panel">
+                    <div class="button red">PLAY</div>
+                    <div class="button blue">INFO</div>
+                    <div class="button yellow">WINS</div>
+                    <div class="button green">GO</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">PLAYER PROFILE</h2>
+            <div class="profile-card">
+                <p class="profile-text">
+                    Senior CS manager with more than ten years of experience building and scaling SaaS platforms. 
+                    Strong focus on trust, driven systems, monetization, rewards, SDK based platforms and metrics maturity. 
+                    Known for translating messy real world usage into clear direction and scalable outcomes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Timeline -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">LEVEL PROGRESSION</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="level-badge">L5</div>
+                    <div class="timeline-content">
+                        <h3 class="job-title">Co-Founder</h3>
+                        <p class="company">YGames</p>
+                        <p class="duration">2023 - 2025</p>
+                        <p class="job-description">
+                            Built a gaming platform from zero to launch. Owned product discovery, incentive mechanics, 
+                            metrics definition and platform decisions. Balanced growth speed with system integrity.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="level-badge">L4</div>
+                    <div class="timeline-content">
+                        <h3 class="job-title">Head of Customer Operations</h3>
+                        <p class="company">Merit Circle</p>
+                        <p class="duration">2022 - 2023</p>
+                        <p class="job-description">
+                            Scaled platform operations for more than fifty thousand users. Partnered with product teams 
+                            on engagement metrics, fraud signals and automation. Enabled 10x volume growth without headcount increase.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="level-badge">L3</div>
+                    <div class="timeline-content">
+                        <h3 class="job-title">Head of Customer Success</h3>
+                        <p class="company">Replai</p>
+                        <p class="duration">2021 - 2022</p>
+                        <p class="job-description">
+                            Reduced churn from 8% to 4%. Defined health scoring and onboarding metrics. 
+                            Improved net revenue retention to 115%. Acted as product partner for roadmap decisions.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="level-badge">L2</div>
+                    <div class="timeline-content">
+                        <h3 class="job-title">Head of Customer Success</h3>
+                        <p class="company">LunaLabs (Unity)</p>
+                        <p class="duration">2019 - 2021</p>
+                        <p class="job-description">
+                            Led SDK onboarding for more than 100 studios globally. Improved time to value and supported 
+                            post-acquisition metric alignment. Maintained 92% retention.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="level-badge">L1</div>
+                    <div class="timeline-content">
+                        <h3 class="job-title">Head of Growth</h3>
+                        <p class="company">Chartboost</p>
+                        <p class="duration">2015 - 2019</p>
+                        <p class="job-description">
+                            Drove more than $20M revenue impact. Worked with lifetime value, return on investment and 
+                            monetization metrics. Built strong instincts for metric trust and platform transparency.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">POWER-UPS</h2>
+            <div class="powerups-grid">
+                <div class="powerup">
+                    <div class="powerup-icon">💼</div>
+                    <div class="powerup-name">Salesforce<br>HubSpot<br>Gainsight<br>Totango</div>
+                </div>
+                <div class="powerup">
+                    <div class="powerup-icon">📊</div>
+                    <div class="powerup-name">SQL<br>Tableau<br>Looker<br>Mixpanel</div>
+                </div>
+                <div class="powerup">
+                    <div class="powerup-icon">🛠️</div>
+                    <div class="powerup-name">Jira<br>Notion<br>Figma</div>
+                </div>
+                <div class="powerup">
+                    <div class="powerup-icon">🤖</div>
+                    <div class="powerup-name">Various<br>AI Tools</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section">
+        <div class="container">
+            <div class="contact-arcade">
+                <h2 class="contact-title">READY TO PLAY?</h2>
+                <div class="contact-links">
+                    <a href="mailto:murmur.red1@gmail.com" class="contact-btn">📧 EMAIL</a>
+                    <a href="https://linkedin.com/in/lena-ry-8baa8716" target="_blank" class="contact-btn">💼 LINKEDIN</a>
+                    <a href="#" class="contact-btn">📍 AMSTERDAM</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>⚡ GAME OVER - INSERT COIN TO CONTINUE ⚡</p>
+        <p>© 2025 LENA RY - ALL RIGHTS RESERVED</p>
+    </footer>
+
+    <script>
+        // Smooth scroll animation
+        document.querySelector('.insert-coin').addEventListener('click', () => {
+            document.querySelector('.section').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Button click effects
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('click', () => {
+                button.style.transform = 'translateY(3px)';
+                setTimeout(() => {
+                    button.style.transform = 'translateY(0)';
+                }, 200);
+            });
+        });
+
+        // Parallax effect for floating toys
+        document.addEventListener('mousemove', (e) => {
+            const toys = document.querySelectorAll('.toy');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            toys.forEach((toy, index) => {
+                const speed = (index + 1) * 0.05;
+                const xOffset = (x - 0.5) * 100 * speed;
+                const yOffset = (y - 0.5) * 100 * speed;
+                toy.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+            });
+        });
+
+        // Intersection Observer for timeline animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-content').forEach(content => {
+            content.style.opacity = '0';
+            content.style.transform = 'translateY(30px)';
+            observer.observe(content);
+        });
+
+        // Power-up hover sound effect simulation
+        document.querySelectorAll('.powerup').forEach(powerup => {
+            powerup.addEventListener('mouseenter', () => {
+                powerup.style.transform = 'scale(1.05) rotate(2deg)';
+            });
+            powerup.addEventListener('mouseleave', () => {
+                powerup.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // Add pixel effect on scroll
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const scrollDiff = Math.abs(currentScroll - lastScroll);
+            
+            if (scrollDiff > 50) {
+                document.body.style.filter = 'contrast(1.1) brightness(1.05)';
+                setTimeout(() => {
+                    document.body.style.filter = 'none';
+                }, 100);
+            }
+            
+            lastScroll = currentScroll;
+        });
+    </script>
 </body>
 </html>
